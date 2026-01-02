@@ -54,24 +54,22 @@ function submitToSL() {
 
         fetch(sl_url, {
             method: 'POST',
+            mode: 'no-cors', // CRITICAL FIX: Bypass CORS blocking
             cache: 'no-cache',
             headers: {
-                'Content-Type': 'application/json' // LSL needs explicit content type roughly
+                'Content-Type': 'text/plain' // Use text/plain to avoid Preflight trigger
             },
             body: jsonString
         }).then(response => {
-            debugDiv.innerHTML += "<br>Response Status: " + response.status;
-            if (response.ok) {
-                var btn = document.querySelector("#slInputArea button");
-                if (btn) {
-                    btn.innerHTML = "✅ SENT!";
-                    btn.style.background = "#0f0";
-                    btn.disabled = true;
-                }
-                debugDiv.innerHTML += "<br>SUCCESS!";
-            } else {
-                debugDiv.innerHTML += "<br>Server Error: " + response.statusText;
+            // In no-cors mode, we cannot read the response status (it is opaque).
+            // We assume success if the fetch promise resolves.
+            var btn = document.querySelector("#slInputArea button");
+            if (btn) {
+                btn.innerHTML = "✅ SENT!";
+                btn.style.background = "#0f0";
+                btn.disabled = true;
             }
+            debugDiv.innerHTML += "<br>Request Sent (no-cors)!";
         }).catch(error => {
             console.error("SL Error:", error);
             debugDiv.innerHTML += "<br>FETCH ERROR: " + error.message;
