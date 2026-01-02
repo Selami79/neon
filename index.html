@@ -4,75 +4,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neon Tetris</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <title>Arcade Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #050510;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Rajdhani', sans-serif;
+            overflow: hidden;
+            background-image:
+                radial-gradient(circle at 50% 50%, #1a1a2e 0%, #000000 100%);
+        }
+
+        h1 {
+            color: #fff;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 2rem;
+            text-shadow:
+                0 0 10px #0ff,
+                0 0 20px #0ff;
+            margin-bottom: 50px;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .menu-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid;
+            border-radius: 15px;
+            padding: 20px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .game-card:hover {
+            transform: scale(1.05);
+        }
+
+        /* TETRIS STYLE */
+        .card-tetris {
+            border-color: #ff00ff;
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.2);
+        }
+
+        .card-tetris:hover {
+            background: rgba(255, 0, 255, 0.1);
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.6);
+        }
+
+        .card-tetris .title {
+            color: #ff00ff;
+        }
+
+        /* CLICKER STYLE */
+        .card-clicker {
+            border-color: #00ff00;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+        }
+
+        .card-clicker:hover {
+            background: rgba(0, 255, 0, 0.1);
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.6);
+        }
+
+        .card-clicker .title {
+            color: #00ff00;
+        }
+
+        .game-info {
+            z-index: 2;
+        }
+
+        .title {
+            font-size: 2rem;
+            margin: 0;
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+
+        .desc {
+            font-size: 1rem;
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+
+        .icon {
+            font-size: 2.5rem;
+        }
+
+        /* Scanlines for retro feel */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg,
+                    rgba(0, 0, 0, 0.15),
+                    rgba(0, 0, 0, 0.15) 1px,
+                    transparent 1px,
+                    transparent 2px);
+            pointer-events: none;
+            z-index: 10;
+        }
+    </style>
 </head>
 
 <body>
 
-    <div id="game-container">
+    <div class="scanlines"></div>
 
-        <!-- Score Board -->
-        <div class="hud">
-            <div class="hud-item">
-                <span class="label">SCORE</span>
-                <span id="score">0</span>
-            </div>
-            <div class="hud-item">
-                <span class="label">LEVEL</span>
-                <span id="level">1</span>
-            </div>
-            <div class="hud-item">
-                <span class="label">LINES</span>
-                <span id="lines">0</span>
-            </div>
-        </div>
+    <h1>ARCADE<br>SYSTEM</h1>
 
-        <!-- Main Game Area -->
-        <div class="canvas-wrapper">
-            <canvas id="tetris" width="240" height="400"></canvas>
+    <div class="menu-container">
 
-            <!-- Start Overlay -->
-            <div id="start-overlay" class="overlay">
-                <h1 class="neon-text">NEON<br>BLOCKS</h1>
-                <button id="start-btn" class="neon-btn">START GAME</button>
+        <a href="tetris/index.html" class="game-card card-tetris">
+            <div class="game-info">
+                <div class="title">NEON BLOCKS</div>
+                <div class="desc">Hyper-Casual Puzzle</div>
             </div>
+            <div class="icon">🧩</div>
+        </a>
 
-            <!-- Game Over Overlay -->
-            <div id="game-over-overlay" class="overlay hidden">
-                <h1 class="neon-text-red">GAME OVER</h1>
-                <p id="final-score">Score: 0</p>
-                <button id="restart-btn" class="neon-btn">TRY AGAIN</button>
+        <a href="clicker/index.html" class="game-card card-clicker">
+            <div class="game-info">
+                <div class="title">CYBER HACK</div>
+                <div class="desc">Idle Tycoon Sim</div>
             </div>
-        </div>
-
-        <!-- Touch/Click Controls -->
-        <div class="controls">
-            <div class="d-pad">
-                <button id="btn-left" class="control-btn">&#9664;</button>
-                <button id="btn-down" class="control-btn">&#9660;</button>
-                <button id="btn-right" class="control-btn">&#9654;</button>
-            </div>
-            <div class="action-pad">
-                <button id="btn-rotate" class="control-btn action-btn">&#8635;</button>
-                <button id="btn-drop" class="control-btn action-btn">&#10515;</button>
-            </div>
-        </div>
-
-        <div class="audio-controls">
-            <button id="btn-sound" class="neon-btn small-btn">SOUND: ON</button>
-            <p class="tiny-text">Add 'music.mp3' to folder for BGM</p>
-        </div>
+            <div class="icon">💻</div>
+        </a>
 
     </div>
 
-    <!-- Background Music (User provided) -->
-    <audio id="bg-music" loop>
-        <source src="music.mp3" type="audio/mpeg">
-    </audio>
-
-    <script src="script.js"></script>
 </body>
 
 </html>
