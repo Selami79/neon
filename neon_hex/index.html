@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Neon Hex</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div id="game-container">
+        <canvas id="gameCanvas"></canvas>
+
+        <div id="ui-layer">
+            <div id="score-board">
+                <div class="score-title">SCORE</div>
+                <div id="score-value">0</div>
+            </div>
+
+            <div id="start-screen" class="screen active">
+                <h1 class="neon-title">NEON HEX</h1>
+                <p class="blink">CLICK TO START</p>
+                <!-- LSL Player Name Display -->
+                <div id="player-greeting" style="display:none; margin-top:10px; color:#00f3ff;"></div>
+            </div>
+
+            <div id="game-over-screen" class="screen">
+                <h1 class="neon-title text-red">GAME OVER</h1>
+                <div class="final-score">Score: <span id="final-score-value">0</span></div>
+
+                <!-- Second Life Integration Input -->
+                <div class="sl-integration">
+                    <input type="text" id="player-name-input" placeholder="YOUR NAME" maxlength="15">
+                    <button id="submit-btn">SUBMIT SCORE</button>
+                    <div id="submit-status"></div>
+                </div>
+
+                <button id="restart-btn" class="retry-btn">TRY AGAIN</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+
+</html>
