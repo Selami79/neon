@@ -19,8 +19,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (player && usernameField) {
         usernameField.value = player;
-        usernameField.disabled = true; // Lock it if it came from SL
-        usernameField.style.opacity = "0.7";
+        usernameField.disabled = true;
+        // İsim zaten biliniyorsa giriş alanını gizle, sadece mesaj alanı kalsın
+        var loginArea = document.getElementById('sl-login-area');
+        if (loginArea) {
+            usernameField.style.display = "none";
+            if (submitBtn) submitBtn.style.display = "none";
+            statusMsg.style.fontSize = "16px";
+            statusMsg.style.color = "#2c3e50";
+            statusMsg.innerText = "PLAYER: " + player;
+        }
     }
 
     function submitScore(name, score) {
