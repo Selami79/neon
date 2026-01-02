@@ -26,9 +26,14 @@ DisplayHighScores() {
     if(RESET_PRIM_LINK != -1) llSetLinkPrimitiveParamsFast(RESET_PRIM_LINK, [PRIM_TEXT, text, <0,1,1>, 1.0]);
 }
 
+integer hasPlayer = FALSE;
+
 LoadGame(string playerName) {
     string final_url = GAME_BASE_URL + "?sl_url=" + llEscapeURL(my_url);
-    if(playerName != "") final_url += "&player=" + llEscapeURL(playerName);
+    if(playerName != "") {
+        final_url += "&player=" + llEscapeURL(playerName);
+        hasPlayer = TRUE;
+    }
     
     integer i;
     for(i=0; i<6; ++i) { 
@@ -41,21 +46,24 @@ LoadGame(string playerName) {
             PRIM_MEDIA_PERMS_CONTROL, PRIM_MEDIA_PERM_NONE,
             PRIM_MEDIA_PERMS_INTERACT, PRIM_MEDIA_PERM_ANYONE,
             PRIM_MEDIA_FIRST_CLICK_INTERACT, TRUE,
-            PRIM_MEDIA_AUTO_SCALE, TRUE
+            PRIM_MEDIA_AUTO_SCALE, TRUE,
+            PRIM_MEDIA_AUTO_ZOOM, TRUE  // AUTO ZOOM EKLENDI
         ]);
     }
+    llOwnerSay("Oyun Yukleniyor: " + playerName);
 }
 
 default {
     state_entry() {
         FindResetPrim();
         llRequestSecureURL();
+        llOwnerSay("Sistem Baslatildi. Reset Prim ID: " + (string)RESET_PRIM_LINK);
     }
 
     http_request(key id, string method, string body) {
         if (method == URL_REQUEST_GRANTED) {
             my_url = body;
-            LoadGame(""); // İlk yükleme isimsiz
+            LoadGame(""); 
         } else if (method == "POST") {
             string name = llJsonGetValue(body, ["name"]);
             integer score = (integer)llJsonGetValue(body, ["score"]);
@@ -70,11 +78,13 @@ default {
     }
     
     touch_start(integer n) {
-        integer face = llDetectedTouchFace(0);
-        if (llGetLinkName(llDetectedLinkNumber(0)) == "reset") {
+        string linkName = llGetLinkName(llDetectedLinkNumber(0));
+        
+        if (llToLower(linkName) == "reset") {
+             llOwnerSay("Resetleniyor...");
              llResetScript(); 
-        } else {
-             // Ekrana dokunulduğunda oyuncu adıyla yükle
+        } else if (!hasPlayer) {
+             // Sadece ilk dokunusta ismi al ve yukle ki oyun bolunmesin
              string name = llDetectedName(0);
              LoadGame(name);
         }
