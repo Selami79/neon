@@ -66,11 +66,32 @@ default {
             LoadGame(""); 
         } else if (method == "POST") {
             string name = llJsonGetValue(body, ["name"]);
-            integer score = (integer)llJsonGetValue(body, ["score"]);
+            integer newScore = (integer)llJsonGetValue(body, ["score"]);
+            
             if(name != JSON_INVALID) {
-                highScores += [score, name];
+                // Find existing player score
+                integer idx = llListFindList(highScores, [name]);
+                if (idx != -1) {
+                    // Player found, idx is position of name, score is at idx-1
+                    integer oldScore = llList2Integer(highScores, idx - 1);
+                    if (newScore > oldScore) {
+                        // Update with higher score
+                        highScores = llDeleteSubList(highScores, idx - 1, idx);
+                        highScores += [newScore, name];
+                    }
+                } else {
+                    // New player
+                    highScores += [newScore, name];
+                }
+                
+                // Sort by score (descending)
                 highScores = llListSort(highScores, 2, FALSE);
-                if(llGetListLength(highScores) > MAX_SCORES * 2) highScores = llList2List(highScores, 0, (MAX_SCORES * 2) - 1);
+                
+                // Limit list size
+                if(llGetListLength(highScores) > MAX_SCORES * 2) {
+                    highScores = llList2List(highScores, 0, (MAX_SCORES * 2) - 1);
+                }
+                
                 DisplayHighScores();
                 llHTTPResponse(id, 200, "OK");
             }

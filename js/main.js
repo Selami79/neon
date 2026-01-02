@@ -343,6 +343,7 @@ function checkGameOver() {
 			}
 			writeHighScores();
 			gameOverDisplay();
+			if (window.autoSubmitScore) window.autoSubmitScore();
 			return true;
 		}
 	}
