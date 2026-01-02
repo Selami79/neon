@@ -1,35 +1,35 @@
-$(document).ready(function () {
+$(document).ready(function() {
 	initialize();
 });
 function initialize(a) {
 	window.rush = 1;
 	window.lastTime = Date.now();
 	window.iframHasLoaded = false;
-	window.colors = ["#FF0055", "#FFDD00", "#00F3FF", "#00FF66"]; // Neon Red, Yellow, Cyan, Green
+	window.colors = ["#e74c3c", "#f1c40f", "#3498db", "#2ecc71"];
 	window.hexColorsToTintedColors = {
-		"#FF0055": "rgb(255,100,150)",
-		"#FFDD00": "rgb(255,240,150)",
-		"#00F3FF": "rgb(150,250,255)",
-		"#00FF66": "rgb(150,255,180)"
+		"#e74c3c": "rgb(241,163,155)",
+		"#f1c40f": "rgb(246,223,133)",
+		"#3498db": "rgb(151,201,235)",
+		"#2ecc71": "rgb(150,227,183)"
 	};
 
 	window.rgbToHex = {
-		"rgb(255,0,85)": "#FF0055",
-		"rgb(255,221,0)": "#FFDD00",
-		"rgb(0,243,255)": "#00F3FF",
-		"rgb(0,255,102)": "#00FF66"
+		"rgb(231,76,60)": "#e74c3c",
+		"rgb(241,196,15)": "#f1c40f",
+		"rgb(52,152,219)": "#3498db",
+		"rgb(46,204,113)": "#2ecc71"
 	};
 
 	window.rgbColorsToTintedColors = {
-		"rgb(255,0,85)": "rgb(255,100,150)",
-		"rgb(255,221,0)": "rgb(255,240,150)",
-		"rgb(0,243,255)": "rgb(150,250,255)",
-		"rgb(0,255,102)": "rgb(150,255,180)"
+		"rgb(231,76,60)": "rgb(241,163,155)",
+		"rgb(241,196,15)": "rgb(246,223,133)",
+		"rgb(52,152,219)": "rgb(151,201,235)",
+		"rgb(46,204,113)": "rgb(150,227,183)"
 	};
 
-	window.hexagonBackgroundColor = 'rgb(30, 30, 30)'; // Dark Grey
-	window.hexagonBackgroundColorClear = 'rgba(30, 30, 30, 0.5)';
-	window.centerBlue = 'rgb(10, 10, 20)'; // Dark Center
+	window.hexagonBackgroundColor = 'rgb(236, 240, 241)';
+	window.hexagonBackgroundColorClear = 'rgba(236, 240, 241, 0.5)';
+	window.centerBlue = 'rgb(44,62,80)';
 	window.angularVelocityConst = 4;
 	window.scoreOpacity = 0;
 	window.textOpacity = 0;
@@ -41,15 +41,15 @@ function initialize(a) {
 	}
 
 	window.textShown = false;
-	window.requestAnimFrame = (function () {
-		return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || function (callback) {
+	window.requestAnimFrame = (function() {
+		return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || function(callback) {
 			window.setTimeout(callback, 1000 / framerate);
 		};
 	})();
 	$('#clickToExit').bind('click', toggleDevTools);
 	window.settings;
 	if (/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-		$('.rrssb-email').remove();
+        $('.rrssb-email').remove();
 		settings = {
 			os: "other",
 			platform: "mobile",
@@ -89,12 +89,12 @@ function initialize(a) {
 		};
 
 	}
-	if (/Android/i.test(navigator.userAgent)) {
+	if(/Android/i.test(navigator.userAgent)) {
 		settings.os = "android";
 	}
 
-	if (navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i)) {
-		settings.os = "ios";
+	if(navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i)){
+		settings.os="ios";
 	}
 
 	window.canvas = document.getElementById('canvas');
@@ -136,7 +136,7 @@ function initialize(a) {
 	setStartScreen();
 	if (a != 1) {
 		window.canRestart = 1;
-		window.onblur = function (e) {
+		window.onblur = function(e) {
 			if (gameState == 1) {
 				pause();
 			}
@@ -148,24 +148,35 @@ function initialize(a) {
 			$('#startBtn').on('mousedown', startBtnHandler);
 		}
 
-		document.addEventListener('touchmove', function (e) {
+		document.addEventListener('touchmove', function(e) {
 			e.preventDefault();
 		}, false);
 		$(window).resize(scaleCanvas);
-		$(window).unload(function () {
+		$(window).unload(function() {
 
 			if (gameState == 1 || gameState == -1 || gameState === 0) localStorage.setItem("saveState", exportSaveState());
 			else localStorage.setItem("saveState", "{}");
 		});
 
 		addKeyListeners();
-		// Removed GA
+		(function(i, s, o, g, r, a, m) {
+			i['GoogleAnalyticsObject'] = r;
+			i[r] = i[r] || function() {
+				(i[r].q = i[r].q || []).push(arguments)
+			}, i[r].l = 1 * new Date();
+			a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+			a.async = 1;
+			a.src = g;
+			m.parentNode.insertBefore(a, m)
+		})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+		ga('create', 'UA-51272720-1', 'teamsnowman.github.io');
+		ga('send', 'pageview');
 
 		document.addEventListener("pause", handlePause, false);
 		document.addEventListener("backbutton", handlePause, false);
 		document.addEventListener("menubutton", handlePause, false); //menu button on android
 
-		setTimeout(function () {
+		setTimeout(function() {
 			if (settings.platform == "mobile") {
 				try {
 					document.body.removeEventListener('touchstart', handleTapBefore, false);
@@ -200,7 +211,7 @@ function initialize(a) {
 }
 
 function startBtnHandler() {
-	setTimeout(function () {
+	setTimeout(function() {
 		if (settings.platform == "mobile") {
 			try {
 				document.body.removeEventListener('touchstart', handleTapBefore, false);
