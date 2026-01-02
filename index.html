@@ -1,190 +1,118 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arcade Hub</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@700&display=swap"
-        rel="stylesheet">
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #050510;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Rajdhani', sans-serif;
-            overflow: hidden;
-            background-image:
-                radial-gradient(circle at 50% 50%, #1a1a2e 0%, #000000 100%);
-        }
+	<title>Hextris</title>
+	<meta name="description" content="An addictive puzzle game inspired by Tetris.">
+	<link rel="manifest" href="manifest.webmanifest">
+	<meta name="apple-itunes-app" content="app-id=903769553" />
+	<meta name="apple-mobile-web-app-title" content="Hextris">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<link rel="apple-touch-icon" sizes="120x120" href="images/icons/apple-touch-120.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="images/icons/apple-touch-152.png">
+	<link rel="apple-touch-icon" sizes="167x167" href="images/icons/apple-touch-167.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="images/icons/apple-touch-180.png">
+	<link rel="apple-touch-icon" sizes="512x512" href="images/icons/apple-touch-512.png">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, minimal-ui" />
+	<meta property="og:url" content="http://hextris.github.io/hextris/" />
+	<meta property="og:site_name" content="Hextris" />
+	<meta property="og:title" content="Hextris" />
+	<meta property="og:description" content="An addictive puzzle game inspired by Tetris." />
+	<meta property="og:type" content="website" />
+	<meta property="og:author" content="https://www.facebook.com/hextris" />
+	<meta property="og:image" content="http://hextris.github.io/hextris/images/facebook-opengraph.png" />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+	<meta property="twitter:card" content="summary" />
+	<meta property="twitter:site" content="@hextris" />
+	<meta property="twitter:site:id" content="2742209678" />
+	<meta property="twitter:creator" content="@hextris" />
+	<meta property="twitter:creator:id" content="2742209678" />
+	<meta property="twitter:domain" content="http://hextris.github.io" />
+	<meta property="twitter:title" content="Hextris" />
+	<meta property="twitter:description" content="An addictive puzzle game inspired by Tetris." />
+	<meta property="twitter:image:src" content="http://hextris.github.io/hextris/images/twitter-opengraph.png" />
+	<meta property="twitter:image:width" content="512" />
+	<meta property="twitter:image:height" content="512" />
+	<meta property="twitter:app:id:iphone" content="id903769553">
+	<meta property="twitter:app:id:ipad" content="id903769553">
+	<meta property="twitter:app:id:googleplay" content="com.hextris.hextris">
+	<meta property="twitter:app:country" content="us">
+	<meta property="twitter:app:url:iphone" content="itunes.apple.com/us/app/id903769553?mt=8">
+	<meta property="twitter:app:url:ipad" content="itunes.apple.com/us/app/id903769553?mt=8">
+	<meta property="twitter:app:url:googleplay"
+		content="https://play.google.com/store/apps/details?id=com.hextris.hextris">
+	<link rel="icon" type="image/png" href="favicon.ico">
+	<link href='http://fonts.googleapis.com/css?family=Exo+2' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="style/fa/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="style/style.css">
+	<script type='text/javascript' src="vendor/hammer.min.js"></script>
+	<script type='text/javascript' src="vendor/js.cookie.js"></script>
+	<script type='text/javascript' src="vendor/jsonfn.min.js"></script>
+	<script type='text/javascript' src="vendor/keypress.min.js"></script>
+	<script type='text/javascript' src="vendor/jquery.js"></script>
+	<script type='text/javascript' src="js/save-state.js"></script>
+	<script type='text/javascript' src="js/view.js"></script>
+	<script type='text/javascript' src="js/wavegen.js"></script>
+	<script type='text/javascript' src="js/math.js"></script>
+	<script type='text/javascript' src="js/Block.js"></script>
+	<script type='text/javascript' src="js/Hex.js"></script>
+	<script type='text/javascript' src="js/Text.js"></script>
+	<script type='text/javascript' src="js/comboTimer.js"></script>
+	<script type='text/javascript' src="js/checking.js"></script>
+	<script type='text/javascript' src='js/update.js'></script>
+	<script type='text/javascript' src='js/render.js'></script>
+	<script type='text/javascript' src="js/input.js"></script>
+	<script type='text/javascript' src="js/main.js"></script>
+	<script type='text/javascript' src="js/initialization.js"></script>
+	<script src="vendor/sweet-alert.min.js"></script>
+	<link rel="stylesheet" href="style/rrssb.css" />
 
-        h1 {
-            color: #fff;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 2rem;
-            text-shadow:
-                0 0 10px #0ff,
-                0 0 20px #0ff;
-            margin-bottom: 50px;
-            text-align: center;
-            line-height: 1.5;
-        }
-
-        .menu-container {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-            width: 100%;
-            max-width: 400px;
-            padding: 20px;
-        }
-
-        .game-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid;
-            border-radius: 15px;
-            padding: 20px;
-            text-decoration: none;
-            color: white;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .game-card:hover {
-            transform: scale(1.05);
-        }
-
-        /* TETRIS STYLE */
-        .card-tetris {
-            border-color: #ff00ff;
-            box-shadow: 0 0 15px rgba(255, 0, 255, 0.2);
-        }
-
-        .card-tetris:hover {
-            background: rgba(255, 0, 255, 0.1);
-            box-shadow: 0 0 30px rgba(255, 0, 255, 0.6);
-        }
-
-        .card-tetris .title {
-            color: #ff00ff;
-        }
-
-        /* CLICKER STYLE */
-        .card-clicker {
-            border-color: #00ff00;
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
-        }
-
-        .card-clicker:hover {
-            background: rgba(0, 255, 0, 0.1);
-            box-shadow: 0 0 30px rgba(0, 255, 0, 0.6);
-        }
-
-        .card-clicker .title {
-            color: #00ff00;
-        }
-
-        .game-info {
-            z-index: 2;
-        }
-
-        .title {
-            font-size: 2rem;
-            margin: 0;
-            text-transform: uppercase;
-            font-weight: 800;
-        }
-
-        .desc {
-            font-size: 1rem;
-            opacity: 0.7;
-            margin-top: 5px;
-        }
-
-        .icon {
-            font-size: 2.5rem;
-        }
-
-        /* Scanlines for retro feel */
-        .scanlines {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(0deg,
-                    rgba(0, 0, 0, 0.15),
-                    rgba(0, 0, 0, 0.15) 1px,
-                    transparent 1px,
-                    transparent 2px);
-            pointer-events: none;
-            z-index: 10;
-        }
-    </style>
 </head>
 
 <body>
+	<canvas id="canvas"></canvas>
+	<div id="overlay" class="faded overlay"></div>
+	<a href="../index.html"
+		style="position:absolute; top:10px; left:10px; z-index:9999; color:#fff; text-decoration:none; font-family:'Exo 2',sans-serif; background:rgba(0,0,0,0.5); padding:5px 10px; border:1px solid rgba(255,255,255,0.3);">🏠
+		MENU</a>
+	<div id='startBtn'></div>
+	<div id="helpScreen" class='unselectable'>
+		<div id='inst_main_body'></div>
+	</div>
+	<img id="openSideBar" class='helpText' src="./images/btn_help.svg" />
+	<div class="faded overlay"></div>
+	<img id="pauseBtn" src="./images/btn_pause.svg" />
+	<img id='restartBtn' src="./images/btn_restart.svg" />
+	<div id='HIGHSCORE'>HIGH SCORE</div>
 
-    <div class="scanlines"></div>
+	<div id='highScoreInGameText'>
+		<div id='highScoreInGameTextHeader'>HIGH SCORE</div>
+		<div id='currentHighScore'>10292</div>
+	</div>
+	<div id="gameoverscreen">
+		<div id='container'>
+			<div id='gameOverBox' class='GOTitle'>GAME OVER</div>
+			<div id='cScore'>1843</div>
+			<div id='highScoresTitle' class='GOTitle'>HIGH SCORES</div>
+			<div class='score'><span class='scoreNum'>1.</span>
+				<div id="1place" style="display:inline;">0</div>
+			</div>
+			<div class='score'><span class='scoreNum'>2.</span>
+				<div id="2place" style="display:inline;">0</div>
+			</div>
+			<div class='score'><span class='scoreNum'>3.</span>
+				<div id="3place" style="display:inline;">0</div>
+			</div>
+		</div>
+		<div id='bottomContainer'>
+			<img id='restart' src='./images/btn_restart.svg' height='57px'>
 
-    <h1>ARCADE<br>SYSTEM</h1>
 
-    <div class="menu-container">
+		</div>
+	</div>
 
-        <a href="tetris/index.html" class="game-card card-tetris">
-            <div class="game-info">
-                <div class="title">NEON BLOCKS</div>
-                <div class="desc">Hyper-Casual Puzzle</div>
-            </div>
-            <div class="icon">🧩</div>
-        </a>
-
-        <a href="snake/index.html" class="game-card card-clicker"
-            style="border-color: #0f0; box-shadow: 0 0 15px #0f0;">
-            <div class="game-info">
-                <div class="title" style="color:#0f0">NEON SNAKE</div>
-                <div class="desc">Classic Snake Game</div>
-            </div>
-            <div class="icon">🐍</div>
-        </a>
-
-        <a href="2048/index.html" class="game-card card-clicker" style="border-color: #ff0; box-shadow: 0 0 15px #ff0;">
-            <div class="game-info">
-                <div class="title" style="color:#ff0">NEON 2048</div>
-                <div class="desc">Logic Puzzle</div>
-            </div>
-            <div class="icon">🔢</div>
-        </a>
-
-        <a href="spaceshooter/index.html" class="game-card card-clicker"
-            style="border-color: #0ff; box-shadow: 0 0 15px #0ff;">
-            <div class="game-info">
-                <div class="title" style="color:#0ff">SPACE WAR</div>
-                <div class="desc">Action Shooter</div>
-            </div>
-            <div class="icon">🚀</div>
-        </a>
-
-        <a href="hextris/index.html" class="game-card card-clicker"
-            style="border-color: #e74c3c; box-shadow: 0 0 15px #e74c3c;">
-            <div class="game-info">
-                <div class="title" style="color:#e74c3c">HEXTRIS</div>
-                <div class="desc">Hexagonal Fast Puzzle</div>
-            </div>
-            <div class="icon">🔻</div>
-        </a>
-
-    </div>
-
+	<script type="text/javascript" src='vendor/rrssb.min.js'></script>
 </body>
 
 </html>
