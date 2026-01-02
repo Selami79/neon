@@ -1,7 +1,7 @@
 // HEXTRIS NEON - Always On Version
 // Created by Gemini for Selami
 
-string GAME_BASE_URL = "https://selami79.github.io/neongame/index.html"; 
+string GAME_BASE_URL = "https://selami79.github.io/neon/index.html"; 
 string my_url = "";
 integer SCREEN_FACE = 0; // Sabit Face 0
 integer RESET_PRIM_LINK = -1; 
