@@ -99,18 +99,26 @@ default {
     }
     
     touch_start(integer n) {
-        string linkName = llGetLinkName(llDetectedLinkNumber(0));
+        integer link = llDetectedLinkNumber(0);
+        string linkName = llToLower(llGetLinkName(link));
         
-        if (llToLower(linkName) == "reset") {
+        // KRITIK: Sadece adi "reset" olan prime basilirsa resetle
+        // Ve bu prim root prim (0 veya 1) olmamali (Eger ekran root ise)
+        if (linkName == "reset") {
              llOwnerSay("Resetleniyor...");
              llResetScript(); 
         } else if (!hasPlayer) {
-             // Sadece ilk dokunusta ismi al ve yukle ki oyun bolunmesin
+             // Sadece ilk dokunusta ismi yakala
              string name = llDetectedName(0);
              LoadGame(name);
         }
     }
     
+    // Media guncellendiginde gereksiz resetleri onlemek icin bunlari devre disi birakiyoruz
     on_rez(integer p) { llResetScript(); }
-    changed(integer c) { if(c & (CHANGED_REGION | CHANGED_LINK)) llResetScript(); }
+    changed(integer c) { 
+        if(c & CHANGED_REGION) llResetScript(); 
+        // CHANGED_LINK'i kaldirdik cunku bazen media degisimi bunu tetikleyip donguye sokuyor
+    }
 }
+```
