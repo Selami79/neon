@@ -64,6 +64,7 @@ LoadGame(integer face, string player_name)
         final_url += "&player=" + llEscapeURL(player_name);
     }
     
+    llSetText("Loading...", <1,1,1>, 1.0); // Show loading status on root/screen temporarily
     llSetPrimMediaParams(face, [
         PRIM_MEDIA_AUTO_PLAY, TRUE,
         PRIM_MEDIA_CURRENT_URL, final_url,
@@ -73,9 +74,11 @@ LoadGame(integer face, string player_name)
         PRIM_MEDIA_PERMS_CONTROL, PRIM_MEDIA_PERM_NONE,
         PRIM_MEDIA_PERMS_INTERACT, PRIM_MEDIA_PERM_ANYONE,
         PRIM_MEDIA_FIRST_CLICK_INTERACT, TRUE,
-        PRIM_MEDIA_AUTO_SCALE, TRUE, 
-        PRIM_MEDIA_AUTO_ZOOM, TRUE
+        PRIM_MEDIA_AUTO_SCALE, FALSE, 
+        PRIM_MEDIA_AUTO_ZOOM, FALSE
     ]);
+    llSleep(2.0);
+    llSetText("", <0,0,0>, 0.0); // Clear text after a short delay
 }
 
 default
