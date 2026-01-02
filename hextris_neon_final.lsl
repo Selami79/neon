@@ -26,11 +26,12 @@ DisplayHighScores() {
     if(RESET_PRIM_LINK != -1) llSetLinkPrimitiveParamsFast(RESET_PRIM_LINK, [PRIM_TEXT, text, <0,1,1>, 1.0]);
 }
 
-LoadGame() {
+LoadGame(string playerName) {
     string final_url = GAME_BASE_URL + "?sl_url=" + llEscapeURL(my_url);
+    if(playerName != "") final_url += "&player=" + llEscapeURL(playerName);
     
     integer i;
-    for(i=0; i<6; ++i) { // Tum yuzlere uygula (Garanti olsun)
+    for(i=0; i<6; ++i) { 
         llSetPrimMediaParams(i, [
             PRIM_MEDIA_AUTO_PLAY, TRUE,
             PRIM_MEDIA_CURRENT_URL, final_url,
@@ -54,7 +55,7 @@ default {
     http_request(key id, string method, string body) {
         if (method == URL_REQUEST_GRANTED) {
             my_url = body;
-            LoadGame(); // URL alinca direk yukle
+            LoadGame(""); // İlk yükleme isimsiz
         } else if (method == "POST") {
             string name = llJsonGetValue(body, ["name"]);
             integer score = (integer)llJsonGetValue(body, ["score"]);
@@ -68,10 +69,14 @@ default {
         }
     }
     
-    // Dokunma islevini sadece Reset icin kullan, ekran zaten aktif
     touch_start(integer n) {
+        integer face = llDetectedTouchFace(0);
         if (llGetLinkName(llDetectedLinkNumber(0)) == "reset") {
-             llResetScript(); // En temiz reset
+             llResetScript(); 
+        } else {
+             // Ekrana dokunulduğunda oyuncu adıyla yükle
+             string name = llDetectedName(0);
+             LoadGame(name);
         }
     }
     
