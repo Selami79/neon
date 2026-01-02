@@ -5,54 +5,18 @@
 	<title>NEON</title>
 	<meta name="description" content="An addictive puzzle game inspired by Tetris.">
 	<link rel="manifest" href="manifest.webmanifest">
-	<meta name="apple-itunes-app" content="app-id=903769553" />
-	<meta name="apple-mobile-web-app-title" content="Hextris">
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<link rel="apple-touch-icon" sizes="120x120" href="images/icons/apple-touch-120.png">
-	<link rel="apple-touch-icon" sizes="152x152" href="images/icons/apple-touch-152.png">
-	<link rel="apple-touch-icon" sizes="167x167" href="images/icons/apple-touch-167.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="images/icons/apple-touch-180.png">
-	<link rel="apple-touch-icon" sizes="512x512" href="images/icons/apple-touch-512.png">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, minimal-ui" />
-	<meta property="og:url" content="http://hextris.github.io/hextris/" />
-	<meta property="og:site_name" content="Hextris" />
-	<meta property="og:title" content="Hextris" />
-	<meta property="og:description" content="An addictive puzzle game inspired by Tetris." />
-	<meta property="og:type" content="website" />
-	<meta property="og:author" content="https://www.facebook.com/hextris" />
-	<meta property="og:image" content="http://hextris.github.io/hextris/images/facebook-opengraph.png" />
-	<meta property="og:image:width" content="1200" />
-	<meta property="og:image:height" content="630" />
-	<meta property="twitter:card" content="summary" />
-	<meta property="twitter:site" content="@hextris" />
-	<meta property="twitter:site:id" content="2742209678" />
-	<meta property="twitter:creator" content="@hextris" />
-	<meta property="twitter:creator:id" content="2742209678" />
-	<meta property="twitter:domain" content="http://hextris.github.io" />
-	<meta property="twitter:title" content="Hextris" />
-	<meta property="twitter:description" content="An addictive puzzle game inspired by Tetris." />
-	<meta property="twitter:image:src" content="http://hextris.github.io/hextris/images/twitter-opengraph.png" />
-	<meta property="twitter:image:width" content="512" />
-	<meta property="twitter:image:height" content="512" />
-	<meta property="twitter:app:id:iphone" content="id903769553">
-	<meta property="twitter:app:id:ipad" content="id903769553">
-	<meta property="twitter:app:id:googleplay" content="com.hextris.hextris">
-	<meta property="twitter:app:country" content="us">
-	<meta property="twitter:app:url:iphone" content="itunes.apple.com/us/app/id903769553?mt=8">
-	<meta property="twitter:app:url:ipad" content="itunes.apple.com/us/app/id903769553?mt=8">
-	<meta property="twitter:app:url:googleplay"
-		content="https://play.google.com/store/apps/details?id=com.hextris.hextris">
 	<link rel="icon" type="image/png" href="favicon.ico">
 	<link href='http://fonts.googleapis.com/css?family=Exo+2' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="style/fa/css/font-awesome.min.css">
-	<link rel="stylesheet" type="text/css" href="style/style.css?v=3">
+	<link rel="stylesheet" type="text/css" href="style/style.css?v=5">
 	<script type='text/javascript' src="vendor/hammer.min.js"></script>
 	<script type='text/javascript' src="vendor/js.cookie.js"></script>
 	<script type='text/javascript' src="vendor/jsonfn.min.js"></script>
 	<script type='text/javascript' src="vendor/keypress.min.js"></script>
 	<script type='text/javascript' src="vendor/jquery.js"></script>
 	<script type='text/javascript' src="js/save-state.js"></script>
-	<script type='text/javascript' src="js/view.js?v=3"></script>
+	<script type='text/javascript' src="js/view.js?v=5"></script>
 	<script type='text/javascript' src="js/wavegen.js"></script>
 	<script type='text/javascript' src="js/math.js"></script>
 	<script type='text/javascript' src="js/Block.js"></script>
@@ -63,11 +27,10 @@
 	<script type='text/javascript' src='js/update.js'></script>
 	<script type='text/javascript' src='js/render.js'></script>
 	<script type='text/javascript' src="js/input.js"></script>
-	<script type='text/javascript' src="js/main.js"></script>
-	<script type='text/javascript' src="js/initialization.js?v=3"></script>
-	<script type='text/javascript' src="js/sl_bridge.js"></script>
+	<script type='text/javascript' src="js/main.js?v=5"></script>
+	<script type='text/javascript' src="js/initialization.js?v=5"></script>
+	<script type='text/javascript' src="js/sl_bridge.js?v=5"></script>
 	<script src="vendor/sweet-alert.min.js"></script>
-	<link rel="stylesheet" href="style/rrssb.css" />
 </head>
 
 <body>
@@ -78,9 +41,13 @@
 		<div id='inst_main_body'></div>
 	</div>
 	<img id="openSideBar" class='helpText' src="./images/btn_help.svg" />
-	<div class="faded overlay"></div>
-	<img id="pauseBtn" src="./images/btn_pause.svg" />
-	<img id='restartBtn' src="./images/btn_restart.svg" />
+
+	<div id="pauseBtn" style="position:fixed;top:20px;left:20px;z-index:100;cursor:pointer;">
+		<img src="./images/btn_pause.svg" width="30">
+	</div>
+
+	<div id='restartBtn' style="display:none;"></div>
+
 	<div id='HIGHSCORE'>HIGH SCORE</div>
 
 	<!-- SL High Score Display -->
@@ -96,13 +63,13 @@
 			<div id='highScoresTitle' class='GOTitle'>HIGH SCORES</div>
 
 			<!-- SL Name Input -->
-			<div id="sl-login-area" style="margin:10px 0; text-align:center;">
+			<div id="sl-login-area" style="margin:10px 0; text-align:center; position:relative; z-index:1000;">
 				<input type="text" id="username_field" placeholder="Player Name"
-					style="padding:5px; font-size:16px; text-transform:uppercase; background:rgba(0,0,0,0.5); color:white; border:1px solid #fff;">
+					style="padding:5px; font-size:16px; text-transform:uppercase; background:rgba(255,255,255,0.1); color:black; border:1px solid #999;">
 				<button id="submit_score_btn"
-					style="padding:5px 10px; font-size:16px; cursor:pointer; background:#3498db; color:white; border:none;">SUBMIT
+					style="padding:5px 10px; font-size:16px; cursor:pointer; background:#3498db; color:white; border:none; margin-top:5px;">SUBMIT
 					SCORE</button>
-				<div id="submit_msg" style="color:yellow; font-size:12px; height:15px; margin-top:5px;"></div>
+				<div id="submit_msg" style="color:red; font-size:12px; height:15px; margin-top:5px;"></div>
 			</div>
 
 			<div class='score'><span class='scoreNum'>1.</span>
@@ -116,7 +83,9 @@
 			</div>
 		</div>
 		<div id='bottomContainer'>
-			<img id='restart' src='./images/btn_restart.svg' height='57px'>
+			<div id="buttonCont">
+				<img id='restart' src='./images/btn_restart.svg' height='57px' style="cursor:pointer;">
+			</div>
 		</div>
 	</div>
 </body>
