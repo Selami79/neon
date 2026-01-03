@@ -85,6 +85,11 @@
             <span class="player-name" id="display-name">GUEST</span>
         </div>
         <button class="start-btn" onclick="startGame()">START GAME</button>
+
+        <div id="debug-info"
+            style="margin-top:20px; font-size:10px; color:rgba(255,255,255,0.4); border-top:1px solid rgba(255,255,255,0.1); padding-top:10px;">
+            DEBUG: <span id="debug-text">Waiting...</span>
+        </div>
     </div>
 
     <script>
@@ -96,8 +101,13 @@
         }
 
         const playerName = getUrlParameter('player');
+        const slUrl = getUrlParameter('sl_url');
+
+        document.getElementById('debug-text').innerText = "Player: " + (playerName || "NONE") + " | SL_URL: " + (slUrl ? "OK" : "MISSING");
+
         if (playerName) {
             document.getElementById('display-name').innerText = playerName;
+            document.getElementById('info-msg').innerHTML = 'WELCOME <span class="player-name">' + playerName + '</span>';
         }
 
         function startGame() {
