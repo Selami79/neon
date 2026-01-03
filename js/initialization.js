@@ -27,8 +27,8 @@ function initialize(a) {
 		"rgb(46,204,113)": "rgb(150,227,183)"
 	};
 
-	window.hexagonBackgroundColor = 'rgb(20, 20, 20)';
-	window.hexagonBackgroundColorClear = 'rgba(20, 20, 20, 0.5)';
+	window.hexagonBackgroundColor = 'rgb(236, 240, 241)';
+	window.hexagonBackgroundColorClear = 'rgba(236, 240, 241, 0.5)';
 	window.centerBlue = 'rgb(44,62,80)';
 	window.angularVelocityConst = 4;
 	window.scoreOpacity = 0;
