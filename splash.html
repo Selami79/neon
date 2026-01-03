@@ -100,15 +100,24 @@
             return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
         }
 
-        const playerName = getUrlParameter('player');
-        const slUrl = getUrlParameter('sl_url');
+        function updateUI() {
+            const playerName = getUrlParameter('player');
+            const slUrl = getUrlParameter('sl_url');
+            const version = getUrlParameter('v');
 
-        document.getElementById('debug-text').innerText = "Player: " + (playerName || "NONE") + " | SL_URL: " + (slUrl ? "OK" : "MISSING");
+            document.getElementById('debug-text').innerText = "Player: " + (playerName || "NONE") + " | SL_URL: " + (slUrl ? "OK" : "MISSING") + " | V: " + version;
 
-        if (playerName) {
-            document.getElementById('display-name').innerText = playerName;
-            document.getElementById('info-msg').innerHTML = 'WELCOME <span class="player-name">' + playerName + '</span>';
+            if (playerName && playerName !== "GUEST") {
+                document.getElementById('display-name').innerText = playerName;
+                document.getElementById('info-msg').innerHTML = 'WELCOME <span class="player-name">' + playerName + '</span>';
+            }
         }
+
+        // İlk yüklemede çalıştır
+        updateUI();
+
+        // SL tarayıcısı bazen sayfayı yenilemezse diye her saniye kontrol et (Poller)
+        setInterval(updateUI, 1000);
 
         function startGame() {
             // Mevcut parametrelerle oyuna git
