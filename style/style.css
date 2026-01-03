@@ -16,7 +16,7 @@
 	width: 250px;
 	overflow: visible;
 	margin-left: -175px;
-	font-family: 'Exo 2';
+	font-family: Exo;
 
 }
 
@@ -381,7 +381,7 @@ button:focus {
 
 body {
 	color: #ecf0f1;
-	font-family: 'Exo 2', sans-serif;
+	font-family: 'Exo', sans-serif;
 	background-color: #ecf0f1;
 }
 
