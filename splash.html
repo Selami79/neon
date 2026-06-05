@@ -59,8 +59,17 @@
 <body>
     <div class="container">
         <h1>NEON</h1>
-        <div class="touch-msg">TOUCH SCREEN TO START</div>
+        <div class="touch-msg" id="touch-msg">TOUCH THE FRAME TO START</div>
     </div>
+    <script>
+        // Sayfaya tiklayan oyuncuyu cerceveye yonlendir: medya yuzundeki
+        // tiklar LSL touch'a ulasmaz, oyun ancak cerceveden baslatilabilir
+        document.addEventListener('click', function () {
+            var msg = document.getElementById('touch-msg');
+            msg.innerText = '↖ TOUCH THE SCREEN FRAME (BORDER) ↗';
+            msg.style.color = '#f1c40f';
+        });
+    </script>
 </body>
 
 </html>
