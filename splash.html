@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEON SPLASH</title>
+    <title>NEON</title>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -25,54 +25,33 @@
 
         .container {
             background: rgba(44, 62, 80, 0.9);
-            padding: 40px;
+            padding: 40px 60px;
             border-radius: 20px;
             text-align: center;
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
             border: 2px solid #3498db;
-            max-width: 400px;
+            max-width: 480px;
             width: 80%;
         }
 
         h1 {
-            font-size: 3em;
-            margin-bottom: 20px;
-            letter-spacing: 5px;
-            text-shadow: 0 0 10px #3498db;
+            font-size: 4em;
+            margin: 0 0 24px 0;
+            letter-spacing: 8px;
+            text-shadow: 0 0 10px #3498db, 0 0 30px #3498db;
         }
 
-        .player-info {
-            font-size: 1.2em;
-            margin-bottom: 30px;
-            color: #ecf0f1;
-        }
-
-        .player-name {
-            color: #3498db;
-            font-weight: bold;
-            display: block;
+        .touch-msg {
             font-size: 1.5em;
-            margin-top: 10px;
-        }
-
-        .start-btn {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            font-size: 1.2em;
             font-weight: bold;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-transform: uppercase;
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+            letter-spacing: 2px;
+            color: #ecf0f1;
+            animation: pulse 1.6s ease-in-out infinite;
         }
 
-        .start-btn:hover {
-            background-color: #2980b9;
-            transform: scale(1.05);
-            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.6);
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.35; }
         }
     </style>
 </head>
@@ -80,50 +59,8 @@
 <body>
     <div class="container">
         <h1>NEON</h1>
-        <div class="player-info" id="info-msg">
-            WELCOME
-            <span class="player-name" id="display-name">GUEST</span>
-        </div>
-        <button class="start-btn" onclick="startGame()">START GAME</button>
-
-        <div id="debug-info"
-            style="margin-top:20px; font-size:10px; color:rgba(255,255,255,0.4); border-top:1px solid rgba(255,255,255,0.1); padding-top:10px;">
-            DEBUG: <span id="debug-text">Waiting...</span>
-        </div>
+        <div class="touch-msg">TOUCH SCREEN TO START</div>
     </div>
-
-    <script>
-        function getUrlParameter(name) {
-            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-            var results = regex.exec(location.search);
-            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-        }
-
-        function updateUI() {
-            const playerName = getUrlParameter('player');
-            const slUrl = getUrlParameter('sl_url');
-            const version = getUrlParameter('v');
-
-            document.getElementById('debug-text').innerText = "Player: " + (playerName || "NONE") + " | SL_URL: " + (slUrl ? "OK" : "MISSING") + " | V: " + version;
-
-            if (playerName && playerName !== "GUEST") {
-                document.getElementById('display-name').innerText = playerName;
-                document.getElementById('info-msg').innerHTML = 'WELCOME <span class="player-name">' + playerName + '</span>';
-            }
-        }
-
-        // İlk yüklemede çalıştır
-        updateUI();
-
-        // SL tarayıcısı bazen sayfayı yenilemezse diye her saniye kontrol et (Poller)
-        setInterval(updateUI, 1000);
-
-        function startGame() {
-            // Mevcut parametrelerle oyuna git
-            window.location.href = 'index.html' + window.location.search;
-        }
-    </script>
 </body>
 
 </html>
